@@ -1,7 +1,7 @@
 {
   "background": {
     "scripts": [
-      "trac-search.js",
+      "tracSearch.js",
       "updates.js"
     ]
   },
