@@ -1,0 +1,30 @@
+{
+  "background": {
+    "scripts": [
+      "trac-search.js",
+      "updates.js"
+    ]
+  },
+  "manifest_version": 2,
+  "name": "Eyeo helpers",
+  "description": "Helpful utilities to make our jobs at Eyeo easier",
+  "icons": {
+    "128": "icons/detailed/eyeo-128.png",
+    "16": "icons/eyeo-16.png",
+    "32": "icons/eyeo-32.png",
+    "48": "icons/detailed/eyeo-48.png",
+    "64": "icons/detailed/eyeo-64.png"
+  },
+  "permissions": [
+    "cookies",
+    "webRequest",
+    "webRequestBlocking",
+    "https://raw.githubusercontent.com/kzar/eyeo-helpers/*",
+    "https://issues.adblockplus.org/subjects*"
+  ],
+  "web_accessible_resources": [
+    "subjects"
+  ],
+  "version": "0.0.1",
+  "update_url": "https://raw.githubusercontent.com/kzar/eyeo-helpers/master/updates.xml"
+}
