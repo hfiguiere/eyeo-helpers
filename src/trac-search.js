@@ -27,7 +27,8 @@ function parse_search(url)
 
 function search_users(query, limit)
 {
-  if (!limit)
+  limit = parseInt(limit);
+  if (isNaN(limit))
     limit = 10;
 
   var groupings = [];
