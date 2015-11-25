@@ -14,7 +14,17 @@ ideas for what else this extension could do.
 open the Chrome extensions settings page and then drag and drop the file
 onto the page.
 
-## Trac user prediction
+_Once installed the extension should keep itself updated automatically. I'm
+hoping we can add more useful functionality in the future._
+
+## Features
+
+### Links to issues from code reviews
+
+The extension "linkifies" the issue numbers in code reviews, that way you can
+quickly click to view related issues when reviewing code. (Thanks Sergz!)
+
+### Trac user prediction
 
 The extension helps speed up and improve the suggestions when typing
 user names into the CC / Assignee fields in our issue tracker
@@ -24,7 +34,3 @@ So far the search algorithm I've implemented is pretty simplistic, but
 it still seems to work better than the default. I'll likely have a go
 at making the predictions more intelligent in the future.
 
-## Updates
-
-Once installed the extension should keep itself updated automatically.
-I'm hoping we can add more useful functionality in the future.
