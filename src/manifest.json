@@ -15,6 +15,13 @@
     "48": "icons/detailed/eyeo-48.png",
     "64": "icons/detailed/eyeo-64.png"
   },
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["https://codereview.adblockplus.org/*"],
+      "js": ["linkifyIssueNumbers.js"]
+    }
+  ],
   "permissions": [
     "cookies",
     "webRequest",
