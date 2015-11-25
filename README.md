@@ -2,13 +2,15 @@
 
 ## Introduction
 
-Eyeo helpers is a small Chrome extension that contains small tools to
+![Eyeo](/src/icons/detailed/eyeo-64.png)
+
+Eyeo helpers is a small Chrome extension that contains tools to
 help make our jobs at Eyeo easier. Pull requests welcome if you have any
 ideas for what else this extension could do.
 
 ## Installation
 
-[Download the extension file](https://raw.githubusercontent.com/kzar/eyeo-helpers/master/eyeo-helpers.crx),
+[Download the eyeo-helpers.crx extension file](https://raw.githubusercontent.com/kzar/eyeo-helpers/master/eyeo-helpers.crx),
 open the Chrome extensions settings page and then drag and drop the file
 onto the page.
 
