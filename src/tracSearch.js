@@ -1,13 +1,20 @@
-// Grab a list of all users
 var users;
-var request = new XMLHttpRequest();
-request.onreadystatechange = function() {
-  if (request.readyState === 4 &&
-      request.status > 199 && request.status < 300)
-    users = request.responseText.split("\n");
-};
-request.open("GET", "https://issues.adblockplus.org/subjects", true);
-request.send(null);
+
+// Grab a list of all users
+function fetch_users()
+{
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if (request.readyState === 4)
+      if (request.status > 199 && request.status < 300)
+        users = request.responseText.split("\n");
+      else if (!request.status && !request.responseText)
+        window.setTimeout(fetch_users, 30000);
+  };
+  request.open("GET", "https://issues.adblockplus.org/subjects", true);
+  request.send(null);
+}
+fetch_users();
 
 function parse_search(url)
 {
@@ -30,6 +37,9 @@ function search_users(query, limit)
   limit = parseInt(limit);
   if (isNaN(limit))
     limit = 10;
+
+  if (!users)
+    return;
 
   var groupings = [];
   for (var i = 0; i < users.length; i += 1)
