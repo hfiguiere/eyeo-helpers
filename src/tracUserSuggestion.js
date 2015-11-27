@@ -3,16 +3,16 @@ var users;
 // Grab a list of all users
 function fetch_users()
 {
-  var request = new XMLHttpRequest();
-  request.onreadystatechange = function() {
-    if (request.readyState === 4)
-      if (request.status > 199 && request.status < 300)
-        users = request.responseText.split("\n");
-      else if (!request.status && !request.responseText)
-        window.setTimeout(fetch_users, 30000);
-  };
-  request.open("GET", "https://issues.adblockplus.org/subjects", true);
-  request.send(null);
+  fetch("https://issues.adblockplus.org/subjects").then(
+    response => response.ok ? response.text() : Promise.reject()
+  ).then(
+    text => {
+      users = text.split("\n");
+    },
+    () => {
+      setTimeout(fetch_users, 30000);
+    }
+  );
 }
 fetch_users();
 

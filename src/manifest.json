@@ -6,6 +6,7 @@
     ]
   },
   "manifest_version": 2,
+  "minimum_chrome_version": "45",
   "name": "Eyeo helpers",
   "description": "Helpful utilities to make our jobs at Eyeo easier",
   "icons": {
