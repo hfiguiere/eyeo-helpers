@@ -18,17 +18,14 @@ fetch_users();
 
 function parse_search(url)
 {
+  var params = new URL(url).search.substr(1).split("&");
   var search = {};
-  var a = document.createElement('a');
-  a.href = url;
 
-  if (a.search)
-  {
-    a.search.substr(1).split("&").map(function(parameter) {
-      var key_val = parameter.split("=", 2);
-      search[key_val[0]] = key_val[1];
-    });
+  for (var i = 0; i < params.length; i++) {
+    var pair = params[i].split("=");
+    search[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
   }
+
   return search;
 }
 
