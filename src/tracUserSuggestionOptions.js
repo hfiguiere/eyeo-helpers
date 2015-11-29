@@ -2,7 +2,8 @@
   "use strict";
 
   var options = {
-    matchCase: true
+    matchCase: true,
+    max: 5
   };
 
   var script = document.createElement("script");
