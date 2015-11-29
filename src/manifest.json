@@ -20,6 +20,12 @@
       "run_at": "document_end",
       "matches": ["https://codereview.adblockplus.org/*"],
       "js": ["linkifyIssueNumbers.js"]
+    },
+    {
+      "run_at": "document_end",
+      "matches": ["https://issues.adblockplus.org/newticket",
+                  "https://issues.adblockplus.org/ticket/*"],
+      "js": ["tracUserSuggestionOptions.js"]
     }
   ],
   "permissions": [
