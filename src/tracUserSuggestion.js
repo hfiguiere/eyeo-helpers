@@ -35,9 +35,6 @@ function search_users(query, limit)
   if (isNaN(limit))
     limit = 10;
 
-  if (!users)
-    return;
-
   var groupings = [];
   for (var i = 0; i < users.length; i += 1)
   {
@@ -72,14 +69,13 @@ function search_users(query, limit)
 function proxy_subjects_api_calls (details)
 {
   var search = parse_search(details.url);
-  if ("q" in search)
+  if (users && "q" in search)
   {
     var results = search_users(search["q"], search["limit"]);
-    if (results)
-      return {
-        redirectUrl: ("data:text/plain;charset=utf-8;base64," +
-                      btoa(unescape(encodeURIComponent(results.join("\n")))))
-      };
+    return {
+      redirectUrl: ("data:text/plain;charset=utf-8;base64," +
+                    btoa(unescape(encodeURIComponent(results.join("\n")))))
+    };
   }
 }
 chrome.webRequest.onBeforeRequest.addListener(
