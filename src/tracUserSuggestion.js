@@ -3,7 +3,8 @@ var users;
 // Grab a list of all users
 function fetch_users()
 {
-  fetch("https://issues.adblockplus.org/subjects").then(
+  fetch("https://issues.adblockplus.org/subjects",
+        { credentials: "include" }).then(
     response => response.ok ? response.text() : Promise.reject()
   ).then(
     text => {
