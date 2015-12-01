@@ -17,6 +17,11 @@ function fetch_users()
 }
 fetch_users();
 
+function decodeURIComponentPlus(encoded)
+{
+  return decodeURIComponent(encoded.replace(/\+/g, "%20"));
+}
+
 function parse_search(url)
 {
   var params = new URL(url).search.substr(1).split("&");
@@ -24,7 +29,7 @@ function parse_search(url)
 
   for (var i = 0; i < params.length; i++) {
     var pair = params[i].split("=");
-    search[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    search[decodeURIComponentPlus(pair[0])] = decodeURIComponentPlus(pair[1]);
   }
 
   return search;
