@@ -28,9 +28,5 @@ quickly click to view related issues when reviewing code. (Thanks Sergz!)
 
 The extension helps speed up and improve the suggestions when typing
 user names into the CC / Assignee fields in our issue tracker
-https://issues.adblockplus.org .
-
-So far the search algorithm I've implemented is pretty simplistic, but
-it still seems to work better than the default. I'll likely have a go
-at making the predictions more intelligent in the future.
-
+https://issues.adblockplus.org . (Thanks to Sebastian for the much improved
+searching algorithm!)
