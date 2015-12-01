@@ -2,7 +2,7 @@
   "use strict";
 
   var options = {
-    matchCase: true,
+    delay: 0,
     max: 5,
     matchSubset: false
   };
