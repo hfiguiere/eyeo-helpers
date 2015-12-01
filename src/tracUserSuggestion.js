@@ -22,7 +22,8 @@
   // Refresh our users list when logging in / out of Trac. (We do this in order
   // to honour the EMAIL_VIEW Trac permission.)
   chrome.cookies.onChanged.addListener(changeInfo => {
-    if (changeInfo.cookie.name == "trac_auth" && users != null)
+    if (changeInfo.cookie.domain == "issues.adblockplus.org" &&
+        changeInfo.cookie.name == "trac_auth" && users != null)
       fetchUsers();
   });
 
