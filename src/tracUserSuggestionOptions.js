@@ -3,7 +3,8 @@
 
   var options = {
     matchCase: true,
-    max: 5
+    max: 5,
+    matchSubset: false
   };
 
   var script = document.createElement("script");
