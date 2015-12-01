@@ -99,8 +99,7 @@
   }
   chrome.webRequest.onBeforeRequest.addListener(
     proxySubjectsAPICalls,
-    { urls: ["https://issues.adblockplus.org/subjects?*"],
-      types: ["xmlhttprequest"] },
+    { urls: ["https://issues.adblockplus.org/subjects?*"] },
     ["blocking"]
   );
 }
