@@ -1,17 +1,28 @@
 var users;
 
-// Grab a list of all users
+// Attempt to fetch a list of users immediately, retrying every 30 seconds on
+// failure. Once the list has been downloaded re-fetch it each time the user
+// logs in or out of Trac in order to honour the EMAIL_VIEW permission.
 function fetch_users()
 {
+  var initial_fetch = users === undefined;
+
   fetch("https://issues.adblockplus.org/subjects",
         { credentials: "include" }).then(
     response => response.ok ? response.text() : Promise.reject()
   ).then(
     text => {
       users = text;
+
+      if (initial_fetch)
+        chrome.cookies.onChanged.addListener(changeInfo => {
+          if (changeInfo.cookie.name == "trac_auth")
+            fetch_users();
+        });
     },
     () => {
-      setTimeout(fetch_users, 30000);
+      if (initial_fetch)
+        setTimeout(fetch_users, 30000);
     }
   );
 }
