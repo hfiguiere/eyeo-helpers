@@ -8,7 +8,7 @@ function fetch_users()
     response => response.ok ? response.text() : Promise.reject()
   ).then(
     text => {
-      users = text.split("\n");
+      users = text;
     },
     () => {
       setTimeout(fetch_users, 30000);
@@ -30,39 +30,47 @@ function parse_search(url)
   return search;
 }
 
+function escapeRegExp(str)
+{
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function search_users(query, limit)
 {
-  limit = parseInt(limit);
-  if (isNaN(limit))
-    limit = 10;
+  var matches = new Map();
+  var escapedQuery = escapeRegExp(query);
 
-  var groupings = [];
-  for (var i = 0; i < users.length; i += 1)
-  {
-    var pos = users[i].indexOf(query);
-    if (pos > -1)
-    {
-      if (!(pos in groupings))
-        groupings[pos] = [users[i]];
-      else
-      {
-        groupings[pos].push(users[i]);
-        if (pos == 0 && groupings[0].length == limit)
-          return groupings[0];
-      }
-    }
+  // Matches all lines/entries for users that contain
+  // the queried string (case-insensitive).
+  var reUser = new RegExp(".*" + escapedQuery + ".*", "gi");
+
+  // Matches all fields that contain the queried string
+  // inside the line/entry for a given user (case-insensetive).
+  var reField = new RegExp("[^|]*" + escapedQuery + "[^|]*", "gi");
+
+  for (var mUser; mUser = reUser.exec(users);) {
+    var user = mUser[0];
+
+    // Calculate a score for each match based on the largest
+    // relatively longest case-insensetive match in any field.
+    // So if the query matches exactly the username or real name
+    // the score is 1, which is the highest possible score.
+    // If the query is "foo" and the username is "foobar" the
+    // score is 0.5 as only half of the characters match.
+    var score = 0;
+    for (var mField; mField = reField.exec(user);)
+      score = Math.max(score, query.length / mField[0].length);
+
+    reField.lastIndex = 0;
+    matches.set(user, score);
   }
 
-  var results = [];
-  for (var i = 0; i < groupings.length; i += 1)
-  {
-    if (i in groupings)
-    {
-      results = results.concat(groupings[i]);
-      if (results.length >= limit)
-        return results.slice(0, limit);
-    }
-  }
+  // Return an array of all matched users, sorted
+  // descendant by score, apply limit if applicable.
+  var results = Array.from(matches.keys());
+  results.sort((a, b) => matches.get(b) - matches.get(a));
+  if (!isNaN(limit))
+    results.splice(limit);
   return results;
 }
 
