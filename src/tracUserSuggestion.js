@@ -10,7 +10,7 @@
       response => response.ok ? response.text() : Promise.reject()
     ).then(
       text => {
-        users = text;
+        users = {original: text, lowerCase: text.toLowerCase()};
       },
       () => {
         setTimeout(fetchUsers, 30000);
@@ -43,24 +43,46 @@
     return search;
   }
 
-  function escapeRegExp(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  function findPositions(text, query, boundary) {
+    // Optimization: Note that this function could better be implemented
+    // as generator. However, V8 cannot optimize generator functions yet.
+    let offset = 0;
+    let positions = [];
+
+    while (true) {
+      let pos = text.indexOf(query, offset);
+      if (pos == -1)
+        break;
+
+      let start = text.lastIndexOf(boundary, pos);
+      if (start == -1)
+        start = 0;
+      else
+        // Optimization: V8 cannot optimize functions using compound
+        // assignment on block-scoped variables. So we avoid += here.
+        start = start + boundary.length;
+
+      let end = text.indexOf(boundary, pos + query.length);
+      if (end == -1)
+        end = text.length;
+
+      positions.push({start, end});
+      offset = end + boundary.length;
+    }
+
+    return positions;
   }
 
   function searchUsers(query, limit) {
-    let matches = new Map();
-    let escapedQuery = escapeRegExp(query);
+    let matches = Object.create(null);
+    let lowerCaseQuery = query.toLowerCase();
 
-    // Matches all lines/entries for users that contain
-    // the queried string (case-insensitive).
-    let reUser = new RegExp(".*" + escapedQuery + ".*", "gi");
+    let originalUsers  = users.original;
+    let lowerCaseUsers = users.lowerCase;
 
-    // Matches all fields that contain the queried string
-    // inside the line/entry for a given user (case-insensetive).
-    let reField = new RegExp("[^|]*" + escapedQuery + "[^|]*", "gi");
-
-    for (let mUser; mUser = reUser.exec(users);) {
-      let user = mUser[0];
+    for (let posUser of findPositions(lowerCaseUsers, lowerCaseQuery, "\n")) {
+      let originalUser  =  originalUsers.substring(posUser.start, posUser.end);
+      let lowerCaseUser = lowerCaseUsers.substring(posUser.start, posUser.end);
 
       // Calculate a score for each match based on the largest
       // relatively longest case-insensetive match in any field.
@@ -69,19 +91,18 @@
       // If the query is "foo" and the username is "foobar" the
       // score is 0.5 as only half of the characters match.
       let score = 0;
-      for (let mField; mField = reField.exec(user);)
-        score = Math.max(score, query.length / mField[0].length);
+      for (let posField of findPositions(lowerCaseUser, lowerCaseQuery, "|"))
+        score = Math.max(score, query.length / (posField.end - posField.start));
 
-      reField.lastIndex = 0;
-      matches.set(user, score);
+      matches[originalUser] = score;
     }
 
-    // Return an array of all matched users, sorted
-    // descendant by score, apply limit if applicable.
-    let results = Array.from(matches.keys());
-    results.sort((a, b) => matches.get(b) - matches.get(a));
+    let results = Object.getOwnPropertyNames(matches);
+    results.sort((a, b) => matches[b] - matches[a]);
+
     if (!isNaN(limit))
       results.splice(limit);
+
     return results;
   }
 
