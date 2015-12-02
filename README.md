@@ -10,9 +10,7 @@ ideas for what else this extension could do.
 
 ## Installation
 
-[Download the eyeo-helpers.crx extension file](https://raw.githubusercontent.com/kzar/eyeo-helpers/master/eyeo-helpers.crx),
-open the Chrome extensions settings page and then drag and drop the file
-onto the page.
+[Click here to install the Eyeo helpers extension](https://chrome.google.com/webstore/detail/eyeo-helpers/ehoeeakjcjpdoojkineakichcobfanee)
 
 _Once installed the extension should keep itself updated automatically. I'm
 hoping we can add more useful functionality in the future._

@@ -1,13 +1,13 @@
 {
   "background": {
     "scripts": [
-      "tracUserSuggestion.js",
-      "updates.js"
+      "tracUserSuggestion.js"
     ]
   },
   "manifest_version": 2,
   "minimum_chrome_version": "45",
   "name": "Eyeo helpers",
+  "short_name": "Eyeo helpers",
   "description": "Helpful utilities to make our jobs at Eyeo easier",
   "icons": {
     "128": "icons/detailed/eyeo-128.png",
@@ -33,9 +33,7 @@
     "cookies",
     "webRequest",
     "webRequestBlocking",
-    "https://raw.githubusercontent.com/kzar/eyeo-helpers/*",
     "*://issues.adblockplus.org/*"
   ],
-  "version": "0.1.3",
-  "update_url": "https://raw.githubusercontent.com/kzar/eyeo-helpers/master/updates.xml"
+  "version": "0.1.4"
 }
