@@ -10,10 +10,10 @@
       response => response.ok ? response.text() : Promise.reject()
     ).then(
       text => {
-          users = text;
+        users = text;
       },
       () => {
-          setTimeout(fetchUsers, 30000);
+        setTimeout(fetchUsers, 30000);
       }
     );
   }
