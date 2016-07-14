@@ -27,6 +27,11 @@
       "matches": ["https://issues.adblockplus.org/newticket",
                   "https://issues.adblockplus.org/ticket/*"],
       "js": ["tracUserSuggestionOptions.js"]
+    },
+    {
+      "run_at": "document_end",
+      "matches": ["https://app.webmate.io/console/*"],
+      "js": ["webmateKeyToggles.js"]
     }
   ],
   "permissions": [
@@ -35,5 +40,5 @@
     "webRequestBlocking",
     "*://issues.adblockplus.org/*"
   ],
-  "version": "0.1.5"
+  "version": "0.1.6"
 }

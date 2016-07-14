@@ -28,3 +28,10 @@ The extension helps speed up and improve the suggestions when typing
 user names into the CC / Assignee fields in our issue tracker
 https://issues.adblockplus.org . (Thanks to Sebastian for the much improved
 searching algorithm!)
+
+### Webmate test machine web client key toggles
+
+The extension adds simple toggles for the shift, control, windows and alt keys.
+The buttons appear above the main window in the "Actions: " section. Click a
+key's name once to "hold it down" and again to release. This allows for pressing
+of tricky key combinations.
