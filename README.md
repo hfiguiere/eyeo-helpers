@@ -24,6 +24,8 @@ quickly click to view related issues when reviewing code. (Thanks Sergz!)
 
 ### Trac user prediction
 
+![Trac user prediction demo](trac-completion.gif)
+
 The extension helps speed up and improve the suggestions when typing
 user names into the CC / Assignee fields in our issue tracker
 https://issues.adblockplus.org . (Thanks to Sebastian for the much improved
