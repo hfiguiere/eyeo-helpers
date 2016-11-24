@@ -10,7 +10,7 @@ ideas for what else this extension could do.
 
 ## Installation
 
-[Click here to install the Eyeo helpers extension](https://chrome.google.com/webstore/detail/eyeo-helpers/ehoeeakjcjpdoojkineakichcobfanee)
+[Click here to install the Eyeo helpers extension](https://chrome.google.com/webstore/detail/eyeo-helpers/dmimmhgkcmdngeeollenilmhcgjbmaek)
 
 _Once installed the extension should keep itself updated automatically. I'm
 hoping we can add more useful functionality in the future._
