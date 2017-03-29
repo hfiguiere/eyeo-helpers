@@ -37,3 +37,9 @@ The extension adds simple toggles for the shift, control, windows and alt keys.
 The buttons appear above the main window in the "Actions: " section. Click a
 key's name once to "hold it down" and again to release. This allows for pressing
 of tricky key combinations.
+
+## Development
+
+[ESLint](http://eslint.org) is used along with [eslint-config-eyeo](https://www.npmjs.com/package/eslint-config-eyeo).
+Please see [the README](https://hg.adblockplus.org/codingtools/file/tip/eslint-config-eyeo/README.md)
+for more information.

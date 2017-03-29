@@ -1,18 +1,22 @@
 "use strict";
 
+(function()
 {
   let users = null;
 
   // Fetch the list of users, retrying every 30 seconds on failure
-  function fetchUsers() {
+  function fetchUsers()
+  {
     fetch("https://issues.adblockplus.org/subjects",
-          { credentials: "include" }).then(
+          {credentials: "include"}).then(
       response => response.ok ? response.text() : Promise.reject()
     ).then(
-      text => {
+      text =>
+      {
         users = {original: text, lowerCase: text.toLowerCase()};
       },
-      () => {
+      () =>
+      {
         setTimeout(fetchUsers, 30000);
       }
     );
@@ -21,21 +25,25 @@
 
   // Refresh our users list when logging in / out of Trac. (We do this in order
   // to honour the EMAIL_VIEW Trac permission.)
-  chrome.cookies.onChanged.addListener(changeInfo => {
+  chrome.cookies.onChanged.addListener(changeInfo =>
+  {
     if (changeInfo.cookie.domain == "issues.adblockplus.org" &&
         changeInfo.cookie.name == "trac_auth" && users != null)
       fetchUsers();
   });
 
-  function decodeURIComponentPlus(encoded) {
+  function decodeURIComponentPlus(encoded)
+  {
     return decodeURIComponent(encoded.replace(/\+/g, "%20"));
   }
 
-  function parseSearch(url) {
+  function parseSearch(url)
+  {
     let params = new URL(url).search.substr(1).split("&");
     let search = {};
 
-    for (let param of params) {
+    for (let param of params)
+    {
       let pair = param.split("=");
       search[decodeURIComponentPlus(pair[0])] = decodeURIComponentPlus(pair[1]);
     }
@@ -43,13 +51,15 @@
     return search;
   }
 
-  function findPositions(text, query, boundary) {
+  function findPositions(text, query, boundary)
+  {
     // Optimization: Note that this function could better be implemented
     // as generator. However, V8 cannot optimize generator functions yet.
     let offset = 0;
     let positions = [];
 
-    while (true) {
+    while (true)
+    {
       let pos = text.indexOf(query, offset);
       if (pos == -1)
         break;
@@ -58,9 +68,11 @@
       if (start == -1)
         start = 0;
       else
+        /* eslint-disable operator-assignment */
         // Optimization: V8 cannot optimize functions using compound
         // assignment on block-scoped variables. So we avoid += here.
         start = start + boundary.length;
+        /* eslint-enable operator-assignment */
 
       let end = text.indexOf(boundary, pos + query.length);
       if (end == -1)
@@ -73,15 +85,17 @@
     return positions;
   }
 
-  function searchUsers(query, limit) {
+  function searchUsers(query, limit)
+  {
     let matches = Object.create(null);
     let lowerCaseQuery = query.toLowerCase();
 
-    let originalUsers  = users.original;
+    let originalUsers = users.original;
     let lowerCaseUsers = users.lowerCase;
 
-    for (let posUser of findPositions(lowerCaseUsers, lowerCaseQuery, "\n")) {
-      let originalUser  =  originalUsers.substring(posUser.start, posUser.end);
+    for (let posUser of findPositions(lowerCaseUsers, lowerCaseQuery, "\n"))
+    {
+      let originalUser = originalUsers.substring(posUser.start, posUser.end);
       let lowerCaseUser = lowerCaseUsers.substring(posUser.start, posUser.end);
 
       // Calculate a score for each match based on the largest
@@ -108,7 +122,8 @@
 
   // Intercept calls to the Trac user suggestion API, redirecting to a data URI
   // containing the results that we want to display.
-  function proxySubjectsAPICalls (details) {
+  function proxySubjectsAPICalls(details)
+  {
     let search = parseSearch(details.url);
     let results;
 
@@ -135,7 +150,7 @@
   }
   chrome.webRequest.onBeforeRequest.addListener(
     proxySubjectsAPICalls,
-    { urls: ["https://eyeo-helpers.invalid/trac-user-suggestion?*"] },
+    {urls: ["https://eyeo-helpers.invalid/trac-user-suggestion?*"]},
     ["blocking"]
   );
-}
+}());

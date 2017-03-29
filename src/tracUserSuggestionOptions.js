@@ -1,7 +1,8 @@
-(function() {
-  "use strict";
+"use strict";
 
-  var options = {
+(function()
+{
+  let options = {
     delay: 100,
     max: 5,
     matchSubset: false,
@@ -12,8 +13,8 @@
     url: "https://eyeo-helpers.invalid/trac-user-suggestion"
   };
 
-  var script = document.createElement("script");
+  let script = document.createElement("script");
   script.type = "text/javascript";
-  script.text = '$(".ac_input").setOptions(' + JSON.stringify(options) + ');';
+  script.text = "$(\".ac_input\").setOptions(" + JSON.stringify(options) + ");";
   document.body.appendChild(script);
 }());
