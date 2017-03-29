@@ -38,7 +38,8 @@
     "cookies",
     "webRequest",
     "webRequestBlocking",
-    "*://issues.adblockplus.org/*"
+    "*://issues.adblockplus.org/*",
+    "*://eyeo-helpers.invalid/*"
   ],
   "version": "0.1.7"
 }

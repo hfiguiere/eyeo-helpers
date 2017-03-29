@@ -110,17 +110,32 @@
   // containing the results that we want to display.
   function proxySubjectsAPICalls (details) {
     let search = parseSearch(details.url);
-    if (users && "q" in search) {
-      let results = searchUsers(search["q"], search["limit"]);
-      return {
-        redirectUrl: ("data:text/plain;charset=utf-8;base64," +
-                      btoa(unescape(encodeURIComponent(results.join("\n")))))
-      };
+    let results;
+
+    if (!users)
+    {
+      // We haven't finished downloading the users list, so don't suggest any.
+      results = [];
     }
+    else if (!("q" in search))
+    {
+      // There was no query, so we can just return all users.
+      if (!isNaN(search["limit"]))
+        results = users.original.slice(0, search["limit"]);
+      else
+        results = users.original;
+    }
+    else
+      results = searchUsers(search["q"], search["limit"]);
+
+    return {
+      redirectUrl: ("data:text/plain;charset=utf-8;base64," +
+                    btoa(unescape(encodeURIComponent(results.join("\n")))))
+    };
   }
   chrome.webRequest.onBeforeRequest.addListener(
     proxySubjectsAPICalls,
-    { urls: ["https://issues.adblockplus.org/subjects?*"] },
+    { urls: ["https://eyeo-helpers.invalid/trac-user-suggestion?*"] },
     ["blocking"]
   );
 }
