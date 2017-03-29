@@ -127,18 +127,11 @@
     let search = parseSearch(details.url);
     let results;
 
-    if (!users)
+    if (!(users && search.q))
     {
-      // We haven't finished downloading the users list, so don't suggest any.
+      // We don't have anything to suggest since either the users list hasn't
+      // finished downloading or there was no query.
       results = [];
-    }
-    else if (!("q" in search))
-    {
-      // There was no query, so we can just return all users.
-      if (!isNaN(search["limit"]))
-        results = users.original.slice(0, search["limit"]);
-      else
-        results = users.original;
     }
     else
       results = searchUsers(search["q"], search["limit"]);
