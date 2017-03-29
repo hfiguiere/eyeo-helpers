@@ -85,7 +85,7 @@
       let lowerCaseUser = lowerCaseUsers.substring(posUser.start, posUser.end);
 
       // Calculate a score for each match based on the largest
-      // relatively longest case-insensetive match in any field.
+      // relatively longest case-insensitive match in any field.
       // So if the query matches exactly the username or real name
       // the score is 1, which is the highest possible score.
       // If the query is "foo" and the username is "foobar" the
