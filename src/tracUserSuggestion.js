@@ -2,24 +2,45 @@
 
 (function()
 {
+  const queries = "abcdefghijklmnopqrstuvwxyz01234567890=-_".split("");
+
   let users = null;
 
-  // Fetch the list of users, retrying every 30 seconds on failure
+  // Perform a user search, retrying every 30 seconds on failure
+  function performQuery(query)
+  {
+    let url = "https://issues.adblockplus.org/subjects?q=" +
+                encodeURIComponent(query) + "&limit=10&timestamp=" +
+                new Date().valueOf();
+    return fetch(url, {credentials: "include"}).then(
+      response => response.ok ? response.text() : Promise.reject()
+    );
+  }
+
   function fetchUsers()
   {
-    fetch("https://issues.adblockplus.org/subjects",
-          {credentials: "include"}).then(
-      response => response.ok ? response.text() : Promise.reject()
-    ).then(
-      text =>
+    Promise.all(queries.map(performQuery)).then(responses =>
+    {
+      // Remove duplicates
+      let uniqueUsers = new Set();
+      for (let response of responses)
       {
-        users = {original: text, lowerCase: text.toLowerCase()};
-      },
-      () =>
-      {
-        setTimeout(fetchUsers, 30000);
+        let start = 0;
+        let end = response.indexOf("\n");
+
+        while (end > -1)
+        {
+          uniqueUsers.add(response.substring(start, end));
+          start = end + 1;
+          end = response.indexOf("\n", start);
+        }
       }
-    );
+
+      // Sort
+      let text = Array.from(uniqueUsers).sort().join("\n");
+
+      users = {original: text, lowerCase: text.toLowerCase()};
+    });
   }
   fetchUsers();
 
