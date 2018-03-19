@@ -7,8 +7,9 @@
   // Fetch the list of users, retrying every 30 seconds on failure
   function fetchUsers()
   {
-    fetch("https://issues.adblockplus.org/subjects",
-          {credentials: "include"}).then(
+    let url = "https://issues.adblockplus.org/subjects?q=&limit=10&timestamp=" +
+                new Date().valueOf();
+    fetch(url,{credentials: "include"}).then(
       response => response.ok ? response.text() : Promise.reject()
     ).then(
       text =>
